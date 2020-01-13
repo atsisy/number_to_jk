@@ -85,5 +85,6 @@ mod tests {
 	assert_eq!(number_to_jk(252), "二百五十二");
 	assert_eq!(number_to_jk(20000), "二万");
 	assert_eq!(number_to_jk(200000000), "二億");
+	assert_eq!(number_to_jk(18446744073709551615), "千八百四十四京六千七百四十四兆七百三十七億九百五十五万千六百十五")
     }
 }
