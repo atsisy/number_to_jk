@@ -1,0 +1,15 @@
+#+TITLE: Number to Japanese Kanji
+
+数値から漢数字の文字列に変換するcrateが無かったので作りました。
+
+漢数字から数値へ変換するcrateとして、matsu7874さんのkanji_number_parser https://github.com/matsu7874/kanji-number-parser があります。
+
+* 出来ること
+u64で表現される数値 を String（漢数字）に変換出来ます。
+** 例
+#+BEGIN_SRC rust
+number_to_jk(18446744073709551615) ==> 千八百四十四京六千七百四十四兆七百三十七億九百五十五万千六百十五
+#+END_SRC
+
+* ライセンス
+このリポジトリに含まれているLICENSEのとおりMIT LICENSEで配布します。
