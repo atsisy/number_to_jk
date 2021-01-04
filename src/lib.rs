@@ -21,25 +21,33 @@ fn unit_number_to_jk(un: char) -> char {
 }
 
 fn __number_to_jk(num_str: &str) -> String {
-    let mut unit = 0;
+	let mut unit = 0;
+	let mut large_unit_flag = false;
     let mut ret_str: String = "".to_string();
     
     for number in num_str.chars().rev() {
 	// numberが'0'なら無視
 	if number != '0' {
-
+		print!("{}", number);
 	    if large_unit_digits(unit) {
-		// 万, 億などの単位が入る場合
-		if unit / 4 > 0 {
-		    ret_str.push(LARGE_UNIT[((unit / 4) - 1) as usize]);
-		}
-		if number == '1' {
-		    // '1'に関しては漢数字の'一'を挿入する
-		    ret_str.push('一');
-		}
+			large_unit_flag = false;
+			// 万, 億などの単位が入る場合
+			if unit / 4 > 0 {
+				large_unit_flag = true;
+		    	ret_str.push(LARGE_UNIT[((unit / 4) - 1) as usize]);
+			}
+			if number == '1' {
+		    	// '1'に関しては漢数字の'一'を挿入する
+		    	ret_str.push('一');
+			}
 	    } else {
-		// 万, 億などの単位が入らない場合
-		ret_str.push(BASIC_UNIT[((unit % 4) - 1) as usize]);
+			// 万, 億などの単位が入らない場合
+			if !large_unit_flag && unit / 4 > 0 {
+				large_unit_flag = true;
+				ret_str.push(LARGE_UNIT[((unit / 4) - 1) as usize]);
+			}
+
+			ret_str.push(BASIC_UNIT[((unit % 4) - 1) as usize]);
 	    }
 
 	    if number != '1' {
@@ -68,6 +76,9 @@ mod tests {
     use crate::number_to_jk;
     #[test]
     fn it_works() {
+	assert_eq!(number_to_jk(100000), "十万");
+	assert_eq!(number_to_jk(1100000), "百十万");
+	assert_eq!(number_to_jk(11100000), "千百十万");
 	assert_eq!(number_to_jk(1100), "千百");
 	assert_eq!(number_to_jk(239432), "二十三万九千四百三十二");
 	assert_eq!(number_to_jk(1230981329), "十二億三千九十八万千三百二十九");
